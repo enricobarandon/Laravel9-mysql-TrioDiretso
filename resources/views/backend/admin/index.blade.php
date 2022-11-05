@@ -27,7 +27,7 @@
                         </div>
                     @endif
 
-                    Admin Index
+                    Admin index
                 </div>
             </div>
         </div>
