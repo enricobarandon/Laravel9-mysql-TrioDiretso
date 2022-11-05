@@ -83,15 +83,15 @@ class LoginController extends Controller
                 ])
             ]);
 
-            // if (Auth::user()->isActive == 0) {
-            //     Auth::logout();
-            //     $request->session()->flush();
-            //     $request->session()->regenerate();
-            //     return back()
-            //         ->withErrors([
-            //             'password' => 'User account is Deactivated. Please contact a administrator to activate your account.',
-            //     ]);
-            // }
+            if (Auth::user()->is_active == 0) {
+                Auth::logout();
+                $request->session()->flush();
+                $request->session()->regenerate();
+                return back()
+                    ->withErrors([
+                        'password' => 'User account is Deactivated. Please contact a administrator to activate your account.',
+                ]);
+            }
             
             return $this->sendLoginResponse($request);
         }
@@ -102,7 +102,12 @@ class LoginController extends Controller
         // user surpasses their maximum number of attempts they will get locked out.
         // $this->incrementLoginAttempts($request);
 
-        return $this->sendFailedLoginResponse($request);
+        return back()
+            ->withErrors([
+                'username' => 'User not found.',
+        ]);
+
+        // return $this->sendFailedLoginResponse($request);
     }
 
     protected function validateLogin(Request $request)

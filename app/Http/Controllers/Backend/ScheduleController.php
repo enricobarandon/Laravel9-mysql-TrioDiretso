@@ -76,10 +76,10 @@ class ScheduleController extends Controller
      * @param  \App\Models\Schedule  $schedule
      * @return \Illuminate\Http\Response
      */
-    public function show(Schedule $schedule)
-    {
-        // return view('backend.admin.schedule.show', compact('schedule'));
-    }
+    // public function show()
+    // {
+
+    // }
 
     /**
      * Show the form for editing the specified resource.

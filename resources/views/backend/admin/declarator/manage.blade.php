@@ -35,18 +35,18 @@
                     <br/>
 
                     <?php
-                        if (count($drawInfo) > 0) {
+                        if ($drawInfo) {
                             $drawNumber = $drawInfo->draw_number;
                         } else {
-                            $drawNumber = 1;
+                            $drawNumber = 0;
                         }
                     ?>
 
-                    <input type="text" id="" value="{{ $drawNumber }}" disabled>
+                    <input type="text" id="inpDrawNum" value="{{ $drawNumber }}" disabled>
 
-                    <button class="btn btn-success">Open Betting</button>
-                    <button class="btn btn-danger">Close Betting</button>
-                    <button class="btn btn-warning">Next Draw</button>
+                    <button class="btn btn-success ctrl-betting" data-action="open">Open Betting</button>
+                    <button class="btn btn-danger ctrl-betting" data-action="close">Close Betting</button>
+                    <button class="btn btn-warning ctrl-betting" data-action="next">Next Draw</button>
                     
 
                 </div>
@@ -59,7 +59,27 @@
 @section('script')
 <script>
     $(document).ready(() => {
-        console.log('jquery');
-    })
+        $(document).on("click", ".ctrl-betting", function() {
+            let action = $(this).attr('data-action');
+            let drawNum = $('#inpDrawNum').val();
+            ajaxControlBetting(drawNum,action);
+        });
+    });
+
+    function ajaxControlBetting(drawNum,action) {
+        $.ajax({
+            type:   'POST',
+            url:    '/admin/schedule/controlBetting',
+            data:   { 
+                _token:     _token,
+                drawNum:    drawNum,
+                action:     action 
+            },
+            success: function(response) {
+                alert(response);
+            }
+        });
+    }
+
 </script>
 @endsection

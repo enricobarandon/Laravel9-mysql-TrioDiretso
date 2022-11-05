@@ -80,6 +80,9 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        var _token = "{{ csrf_token() }}";
+    </script>
     @yield('script')
     
 </html>

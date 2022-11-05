@@ -13,8 +13,21 @@ class GameController extends Controller
     {
         $gameInfo = $schedule;
 
-        $drawInfo = Draw::where('schedule_id', $schedule->id)->get();
+        $drawInfo = Draw::where('schedule_id', $schedule->id)->first();
         
         return view('backend.admin.declarator.manage', compact('gameInfo','drawInfo'));
+    }
+
+    public function control()
+    {
+        $ongoingGame = Schedule::where('status','active')->first();
+
+        $drawNum = request()->drawNum;
+
+        $action = request()->action;
+
+        Draw::controlBetting($ongoingGame->id, $drawNum, $action);
+
+        return $action;
     }
 }
