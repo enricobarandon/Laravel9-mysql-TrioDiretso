@@ -55,3 +55,11 @@
     </div>
 </div>
 @endsection
+
+@section('script')
+<script>
+    $(document).ready(() => {
+        console.log('jquery');
+    })
+</script>
+@endsection
