@@ -16,8 +16,15 @@ class UserTypeSeeder extends Seeder
     public function run()
     {  
         UserType::create([
-            // 'id'    =>  1,
             'role'  =>  'Administrator'
+        ]);
+        
+        UserType::create([
+            'role'  =>  'Player'
+        ]);
+
+        UserType::create([
+            'role'  =>  'Declarator'
         ]);
 
         // UserType::create([
@@ -34,11 +41,6 @@ class UserTypeSeeder extends Seeder
         //     'id'    =>  4,
         //     'role'  =>  'Teller and Cashier'
         // ]);
-        
-        UserType::create([
-            // 'id'    =>  5,
-            'role'  =>  'Player'
-        ]);
 
         // UserType::create([
         //     'id'    =>  6,
@@ -48,11 +50,6 @@ class UserTypeSeeder extends Seeder
         // UserType::create([
         //     'id'    =>  7,
         //     'role'  =>  'Cashier Report'
-        // ]);
-
-        // UserType::create([
-        //     'id'    =>  8,
-        //     'role'  =>  'Declarator'
         // ]);
 
         // UserType::create([

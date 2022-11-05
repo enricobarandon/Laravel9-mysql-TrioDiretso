@@ -1,4 +1,4 @@
-@extends('layouts.player')
+@extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -18,7 +18,7 @@
                 </div>
             @endif
             <div class="card">
-                <div class="card-header">{{ __('Trio Diretso Player') }}</div>
+                <div class="card-header">{{ __('Declarator') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -27,9 +27,28 @@
                         </div>
                     @endif
 
-                    <h1>Betting Page</h1>
-                    <h6>Balance: {{ number_format($user->balance,2) }}</h6>
+                    <h1>Game Management Page</h1>
+                    <h5>Game Name: {{ $gameInfo->name }}</h5>
+                    <h5>Minimum Bet Amount: {{ number_format($gameInfo->minimum_bet,2) }}</h5>
+                    <h5>Multiplier: {{ number_format($gameInfo->multiplier,2) }}</h5>
+
+                    <br/>
+
+                    <?php
+                        if (count($drawInfo) > 0) {
+                            $drawNumber = $drawInfo->draw_number;
+                        } else {
+                            $drawNumber = 1;
+                        }
+                    ?>
+
+                    <input type="text" id="" value="{{ $drawNumber }}" disabled>
+
+                    <button class="btn btn-success">Open Betting</button>
+                    <button class="btn btn-danger">Close Betting</button>
+                    <button class="btn btn-warning">Next Draw</button>
                     
+
                 </div>
             </div>
         </div>

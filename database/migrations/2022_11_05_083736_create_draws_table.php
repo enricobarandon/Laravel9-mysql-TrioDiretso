@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('schedules', function (Blueprint $table) {
+        Schema::create('draws', function (Blueprint $table) {
             $table->id();
-            $table->string('name',255);
-            $table->char('status', 50)->default('inactive');
-            $table->dateTime('date_time');
-            $table->integer('minimum_bet');
-            $table->integer('multiplier')->default(20);
+            $table->integer('schedule_id');
+            $table->integer('draw_number');
+            $table->string('status')->default('standby');
+            $table->string('result',55);
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('schedules');
+        Schema::dropIfExists('draws');
     }
 };

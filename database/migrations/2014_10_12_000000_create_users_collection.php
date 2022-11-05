@@ -27,10 +27,9 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('username');
             $table->string('password');
+            $table->decimal('balance',11,2);
             $table->char('pin', 6)->nullable();
-            // $table->char('allowed_sides', 10);
             $table->integer('max_bet')->default(1000);
-            // $table->integer('max_draw_bet');
             $table->text('session_id');
             $table->rememberToken();
             $table->timestamps();

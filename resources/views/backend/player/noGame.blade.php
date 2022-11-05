@@ -27,8 +27,12 @@
                         </div>
                     @endif
 
-                    <h1>Betting Page</h1>
-                    <h6>Balance: {{ number_format($user->balance,2) }}</h6>
+                    <h1>No Ongoing Game</h1>
+
+                    <h5>Upcoming Games</h5>
+                    @foreach($upcomingGames as $game) 
+                        <p>{{ $game->name }} - {{ date('M d, Y h:i A', strtotime($game->date_time)) }}</p>
+                    @endforeach
                     
                 </div>
             </div>
