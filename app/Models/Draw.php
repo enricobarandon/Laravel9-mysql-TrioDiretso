@@ -21,6 +21,11 @@ class Draw extends Model
 
     public static function controlBetting($scheduleId, $gameNum, $action)
     {
+        $response = [
+            'result'    => 0,
+            'message'   => ''
+        ];
+        
         $drawInfo = Draw::where('schedule_id', $scheduleId)
                             // ->where('draw_number', $gameNum)
                             ->orderBy('id','desc')
@@ -31,7 +36,23 @@ class Draw extends Model
 
                 if ($drawInfo) {
                     // > 0
-                    dd($drawInfo);
+                    if ($drawInfo->status == 'open') {
+
+                        $response['message'] = "Draw # $gameNum already opened";
+
+                    } else if($drawInfo->status == 'closed') {
+
+                        $response['message'] = "Draw # $gameNum already closed";
+
+                    } else if($drawInfo->status == 'standby') {
+                        Draw::where('schedule_id', $scheduleId)
+                            ->where('draw_number', $gameNum)
+                            ->update([
+                                'status'    => 'open'
+                            ]);
+                        $response['message'] = "Draw # $gameNum betting is now open.";
+                    }
+
                 } else {
                     // Open first draw #
                     Draw::create([
@@ -47,24 +68,45 @@ class Draw extends Model
 
             case 'close':
 
+                if ($drawInfo->status == 'open') {
+                    Draw::where('schedule_id', $scheduleId)
+                            ->where('draw_number', $gameNum)
+                            ->update([
+                                'status'    => 'closed'
+                            ]);
+
+                    $response['result'] = 1;
+                    $response['message'] = "Draw # $gameNum closed.";
+                } else if ($drawInfo->status == 'closed') {
+                    $response['message'] = "Draw # $gameNum already closed.";
+                } else if ($drawInfo->status == 'standby') {
+                    $response['message'] = "Draw # $gameNum still on standby.";
+                }
 
                 break;
 
 
             case 'next':
 
-                if ($drawInfo->result == '' and $drawInfo->status == 'confirmed') {
+                if ($drawInfo->result != '' and $drawInfo->status == 'confirmed') {
                     // create next draw #
+                    $nextDrawNum = $drawInfo->draw_number + 1;
                     Draw::create([
                         'schedule_id'   => $scheduleId,
-                        'draw_number'   => $drawInfo->draw_number++,
+                        'draw_number'   => $nextDrawNum,
                         'status'        => 'standby',
                         'result'        => ''
                     ]);
+                    $response['result'] = 1;
+                    $response['message'] = 'Draw # ' . $nextDrawNum . ' on standby.';
+                } else {
+                    $response['message']  = 'Please declare the result for draw # ' . $drawInfo->draw_number . ' before proceeding to the next draw #';
                 }
 
                 break;
 
         }
+
+        return json_encode($response);
     }
 }

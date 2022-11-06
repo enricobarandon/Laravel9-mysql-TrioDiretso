@@ -76,7 +76,8 @@
                 action:     action 
             },
             success: function(response) {
-                alert(response);
+                let json = JSON.parse(response);
+                alert(json.message);
             }
         });
     }
