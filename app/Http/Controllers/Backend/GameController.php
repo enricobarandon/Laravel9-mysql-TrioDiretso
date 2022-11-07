@@ -13,9 +13,16 @@ class GameController extends Controller
     {
         $gameInfo = $schedule;
 
-        $drawInfo = Draw::where('schedule_id', $schedule->id)->orderBy('id','desc')->first();
-        
-        return view('backend.admin.declarator.manage', compact('gameInfo','drawInfo'));
+        if ($schedule->status == 'active') {
+    
+            $drawInfo = Draw::where('schedule_id', $schedule->id)->orderBy('id','desc')->first();
+            
+            return view('backend.admin.declarator.manage', compact('gameInfo','drawInfo'));
+
+        }
+
+        return view('backend.admin.declarator.inactive');
+
     }
 
     public function control()
