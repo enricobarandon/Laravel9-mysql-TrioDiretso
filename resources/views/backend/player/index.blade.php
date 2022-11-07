@@ -53,16 +53,13 @@
 
 @section('script')
 <script>
+
     $(document).ready(() => {
-        // $(document).on("click", ".ctrl-betting", function() {
-        //     let action = $(this).attr('data-action');
-        //     let drawNum = $('#inpDrawNum').val();
-        //     ajaxControlBetting(drawNum,action);
-        // });
-        
+
         $(document).on("click", "#btnPostBet", function() {
             postBet();
         });
+        
     });
 
     function postBet() {

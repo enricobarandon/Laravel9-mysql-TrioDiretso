@@ -10,6 +10,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
     Route::middleware('role:Administrator,Declarator')->group(function(){
         Route::get('schedule/{schedule}/manage',        [GameController::class, 'index']);
         Route::post('schedule/controlBetting',          [GameController::class, 'control']);
+        Route::post('schedule/declareResult',           [GameController::class, 'declare']);
     });
 
 });

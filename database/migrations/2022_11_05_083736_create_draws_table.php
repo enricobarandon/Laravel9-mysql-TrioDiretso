@@ -17,9 +17,12 @@ return new class extends Migration
             $table->id();
             $table->integer('schedule_id');
             $table->integer('draw_number');
+            $table->integer('f_admin_id')->default(0);
+            $table->integer('s_admin_id')->default(0);
             $table->string('status')->default('standby');
             $table->string('result',55);
             $table->timestamps();
+            $table->index(['schedule_id', 'draw_number']);
         });
     }
 
