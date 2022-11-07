@@ -23,7 +23,9 @@ class Draw extends Model
     {
         $response = [
             'result'    => 0,
-            'message'   => ''
+            'title'     => 'Error',
+            'text'   => '',
+            'icon'      => 'error'
         ];
         
         $drawInfo = Draw::where('schedule_id', $scheduleId)
@@ -38,11 +40,11 @@ class Draw extends Model
                     // > 0
                     if ($drawInfo->status == 'open') {
 
-                        $response['message'] = "Draw # $gameNum already opened";
+                        $response['text'] = "Draw # $gameNum already opened";
 
                     } else if($drawInfo->status == 'closed') {
 
-                        $response['message'] = "Draw # $gameNum already closed";
+                        $response['text'] = "Draw # $gameNum already closed";
 
                     } else if($drawInfo->status == 'standby') {
                         Draw::where('schedule_id', $scheduleId)
@@ -50,7 +52,9 @@ class Draw extends Model
                             ->update([
                                 'status'    => 'open'
                             ]);
-                        $response['message'] = "Draw # $gameNum betting is now open.";
+                        $response['title'] = 'Success';
+                        $response['text'] = "Draw # $gameNum betting is now open.";
+                        $response['icon'] = 'success';
                     }
 
                 } else {
@@ -76,11 +80,13 @@ class Draw extends Model
                             ]);
 
                     $response['result'] = 1;
-                    $response['message'] = "Draw # $gameNum closed.";
+                    $response['title'] = 'Success';
+                    $response['text'] = "Draw # $gameNum closed.";
+                    $response['icon'] = 'success';
                 } else if ($drawInfo->status == 'closed') {
-                    $response['message'] = "Draw # $gameNum already closed.";
+                    $response['text'] = "Draw # $gameNum already closed.";
                 } else if ($drawInfo->status == 'standby') {
-                    $response['message'] = "Draw # $gameNum still on standby.";
+                    $response['text'] = "Draw # $gameNum still on standby.";
                 }
 
                 break;
@@ -98,9 +104,11 @@ class Draw extends Model
                         'result'        => ''
                     ]);
                     $response['result'] = 1;
-                    $response['message'] = 'Draw # ' . $nextDrawNum . ' on standby.';
+                    $response['title'] = 'Success';
+                    $response['text'] = 'Draw # ' . $nextDrawNum . ' on standby.';
+                    $response['icon'] = 'success';
                 } else {
-                    $response['message']  = 'Please declare the result for draw # ' . $drawInfo->draw_number . ' before proceeding to the next draw #';
+                    $response['text']  = 'Please declare the result for draw # ' . $drawInfo->draw_number . ' before proceeding to the next draw #';
                 }
 
                 break;

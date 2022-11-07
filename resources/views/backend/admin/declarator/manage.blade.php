@@ -77,7 +77,12 @@
             },
             success: function(response) {
                 let json = JSON.parse(response);
-                alert(json.message);
+                swal({
+                    title: json.title,
+                    text: json.text,
+                    icon: json.icon,
+                    button: 'Close'
+                });
             }
         });
     }
