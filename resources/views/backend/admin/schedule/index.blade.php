@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             @if (session('status'))
                 <div class="alert alert-success" role="alert">
                     {{ session('status') }}
@@ -17,8 +17,10 @@
                     {{ session('error') }}
                 </div>
             @endif
-            <div class="card">
-                <div class="card-header">{{ __('Schedules') }}</div>
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h5><i class="fa fa-info-circle"></i> Schedules</h5>
+                </div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -27,9 +29,8 @@
                         </div>
                     @endif
 
-                    <h5>Schedules</h5>
-                    <a href="/admin/schedule/create">Create Schedule</a>
-                    <table class="table">
+                    <a href="/admin/schedule/create" class="btn btn-primary float-right mb-2"><i class="fa fa-plus"></i> Create Schedule</a>
+                    <table class="table global-table text-center">
                         <thead>
                             <tr>
                                 <th>#</th>
