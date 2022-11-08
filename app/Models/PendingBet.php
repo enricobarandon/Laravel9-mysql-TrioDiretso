@@ -22,4 +22,29 @@ class PendingBet extends Model
         'bet_amount'
     ];
 
+    static function setWinners($scheduleId, $drawNum, $winResult, $multiplier)
+    {
+        if ($winResult == 'cancelled') {
+
+        } else {
+            PendingBet::where('schedule_id', $scheduleId)
+                        ->where('draw_number', $drawNum)
+                        ->where('status', 'pending')
+                        ->where('bet', $winResult)
+                        ->update([
+                            'status'    => 'win',
+                            'payout'    => DB::raw('bet_amount * ' . $multiplier)
+                        ]);
+
+            PendingBet::where('schedule_id', $scheduleId)
+                        ->where('draw_number', $drawNum)
+                        ->where('status', 'pending')
+                        ->where('bet', '!=', $winResult)
+                        ->update([
+                            'status'    => 'lost',
+                            'payout'    => '0'
+                        ]);
+        }
+    }
+
 }

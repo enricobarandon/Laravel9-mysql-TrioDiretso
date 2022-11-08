@@ -9,6 +9,7 @@ use App\Models\Draw;
 use Validator;
 use Auth;
 use DB;
+use App\Models\PendingBet;
 
 class GameController extends Controller
 {
@@ -48,6 +49,7 @@ class GameController extends Controller
         $first = request()->first;
         $second = request()->second;
         $third = request()->third;
+        $cancel = request()->cancel;
         $drawNum = request()->drawNum;
 
         $response = [
@@ -121,6 +123,27 @@ class GameController extends Controller
                             ->where('draw_number', $drawNum)
                             ->update($updateForm);
 
+            
+
+            if ($update) {
+                $response['title'] = 'Success';
+                $response['text'] = 'Result posted.';
+                $response['result'] = 1;
+                $response['icon'] = 'success';
+
+                if ($updateForm['status'] == 'confirmed') {
+                    // start grading pending bets
+                    PendingBet::setWinners($ongoingGame->id, $drawNum, $inputResult, $ongoingGame->multiplier);
+                    // update players balances
+
+                    // transfer bets to past bets table
+                    
+                }
+
+            } else {
+                $response['text'] = 'Result declaration failed.';
+            }
+
             DB::commit();
 
         } catch (Throwable $e) {
@@ -131,22 +154,8 @@ class GameController extends Controller
 
         }
 
-        if ($update) {
-            $response['title'] = 'Success';
-            $response['text'] = 'Result posted.';
-            $response['result'] = 1;
-            $response['icon'] = 'success';
-
-            if ($updateForm['status'] == 'confirmed') {
-                // start grading pending bets
-                
-            }
-
-        } else {
-            $response['text'] = 'Result declaration failed.';
-        }
-
         return json_encode($response);
 
     }
+
 }

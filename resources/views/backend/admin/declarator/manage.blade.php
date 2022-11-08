@@ -56,6 +56,7 @@
                     <input type="text" class="declare" id="inpDeclareThird" data-position="third" placeholder="Input third #">
                     
                     <button type="button" class="btn btn-primary" id="btnDeclare">Declare Result</button>
+                    <button type="button" class="btn btn-danger" id="btnCancel">Cancel Draw</button>
 
                 </div>
             </div>
@@ -99,8 +100,12 @@
                 return false;
             }
 
-            declareResult(first, second, third);
+            declareResult(first, second, third , 0);
 
+        });
+
+        $(document).on("click", "#btnCancel", function() {
+            declareResult(0, 0, 0 , 1);
         });
 
     });
