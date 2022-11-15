@@ -134,10 +134,12 @@ class GameController extends Controller
                 if ($updateForm['status'] == 'confirmed') {
                     // start grading pending bets
                     PendingBet::setWinners($ongoingGame->id, $drawNum, $inputResult, $ongoingGame->multiplier);
+                    // transfer lose bets to past bets table and update status to 'lost'
+                    PendingBet::transferLostBets($ongoingGame->id, $drawNum);
                     // update players balances
-
-                    // transfer bets to past bets table
-                    
+                    PendingBet::updatePlayerBalance($ongoingGame->id, $drawNum);
+                    // transfer win bets to past_bets table
+                    PendingBet::transferWinBets($ongoingGame->id, $drawNum);
                 }
 
             } else {
